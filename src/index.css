@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   THEME LEVELS
+   Level 1 = lightest  →  Level 4 = darkest.
+   Every colour in the site reads from these variables, so changing a
+   palette here changes the whole site.
+------------------------------------------------------------------ */
+:root[data-level='1'] {
+  --bg: #fffbf4;
+  --surface: #f5f0e5;
+  --raise: #d8cfbc;
+  --text: #11120d;
+  --muted: #565449;
+  --line: rgba(86, 84, 73, 0.24);
+  --line-soft: rgba(86, 84, 73, 0.13);
+  --accent: #565449;
+  --on-accent: #fffbf4;
+  color-scheme: light;
+}
+:root[data-level='2'] {
+  --bg: #d8cfbc;
+  --surface: #e7e0d1;
+  --raise: #fffbf4;
+  --text: #11120d;
+  --muted: #565449;
+  --line: rgba(17, 18, 13, 0.22);
+  --line-soft: rgba(17, 18, 13, 0.11);
+  --accent: #565449;
+  --on-accent: #fffbf4;
+  color-scheme: light;
+}
+:root[data-level='3'] {
+  --bg: #565449;
+  --surface: #4b4a40;
+  --raise: #d8cfbc;
+  --text: #fffbf4;
+  --muted: #d8cfbc;
+  --line: rgba(255, 251, 244, 0.24);
+  --line-soft: rgba(255, 251, 244, 0.12);
+  --accent: #d8cfbc;
+  --on-accent: #11120d;
+  color-scheme: dark;
+}
+:root[data-level='4'] {
+  --bg: #11120d;
+  --surface: #1b1c15;
+  --raise: #565449;
+  --text: #fffbf4;
+  --muted: #c8bfab;
+  --line: rgba(216, 207, 188, 0.2);
+  --line-soft: rgba(216, 207, 188, 0.1);
+  --accent: #d8cfbc;
+  --on-accent: #11120d;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+  body {
+    @apply bg-bg font-sans text-base font-normal leading-relaxed text-ink antialiased;
+    transition:
+      background-color 0.55s cubic-bezier(0.2, 0.7, 0.2, 1),
+      color 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-serif font-normal;
+    font-optical-sizing: auto;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-page px-5 sm:px-8 lg:px-12;
+  }
+  .nav-blur {
+    background: var(--bg);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    transition: background-color 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .btn {
+    @apply inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-[0.9375rem] no-underline transition-all duration-300 ease-soft hover:-translate-y-0.5;
+  }
+  .btn-solid {
+    @apply border-accent bg-accent text-on-accent hover:opacity-90;
+  }
+  .btn-ghost {
+    @apply hover:border-ink hover:bg-surface;
+  }
+  .tag {
+    @apply rounded-full border border-line px-3.5 py-1.5 text-sm text-muted transition-colors duration-200 ease-soft hover:border-ink hover:bg-surface hover:text-ink;
+  }
+  .section-label {
+    @apply pt-1.5 text-[0.8125rem] leading-normal text-muted;
+  }
+}
+
+/* Entrance motion: one page-load sequence in the hero, one gentle reveal per section. */
+.seq {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: seq 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+@keyframes seq {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.rise.in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  .seq,
+  .rise {
+    opacity: 1;
+    transform: none;
+  }
+}
