@@ -1,12 +1,15 @@
 import { links, profile } from '../config.js'
 import { GitHubIcon, LinkedInIcon, MailIcon } from './Icons.jsx'
+import { useIntroDone } from '../useIntroDone';
 
 /* Staggered entrance for the hero — the page's single orchestrated moment. */
 const step = (i) => ({ animationDelay: `${0.05 + i * 0.09}s` })
 
 export default function Hero() {
+  const introDone = useIntroDone();
   return (
     <section id="top" className="pb-12 pt-14 sm:pb-16 sm:pt-20 lg:pb-20 lg:pt-24">
+      
       <div className="wrap">
         <div
           className="seq inline-flex items-center gap-2.5 rounded-full border border-line py-1.5 pl-2 pr-3.5 text-xs text-muted"
